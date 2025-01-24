@@ -31,16 +31,14 @@ public class IAccountServiceImpl implements IAccountService {
             throw new CustomerAlreadyExistsException("Mobile number already exists");
         }
         Customer customer = CustomerMapper.toEntity(customerDto);
-        customer.setCreatedAt(LocalDateTime.now());
-        customer.setCreatedBy("Anonymous");
+
         customer = customerRepository.save(customer);
         Account account = new Account();
         account.setAccountType(AccountConstants.ACCOUNT_TYPE);
         account.setBranchAddress(AccountConstants.BRANCH_ADDRESS);
         account.setCurrency(AccountConstants.CURRENCY);
         account.setCustomerId(customer.getId());
-        account.setCreatedAt(LocalDateTime.now());
-        account.setCreatedBy("Anonymous");
+
         accountsRepository.save(account);
     }
 
@@ -48,7 +46,7 @@ public class IAccountServiceImpl implements IAccountService {
     public CustomerDto fetchAccountDetails(String mobileNumber) {
         Customer customer =
                 customerRepository.findByMobileNumber(mobileNumber).orElseThrow(() -> new ResourceNotFoundException(
-                       AccountConstants.CUSTOMER, AccountConstants.MOBILE_NUMBER, mobileNumber));
+                        AccountConstants.CUSTOMER, AccountConstants.MOBILE_NUMBER, mobileNumber));
         Account account = accountsRepository.findById(customer.getId()).orElseThrow(
                 () -> new ResourceNotFoundException("Account", "Customer Id", String.valueOf(customer.getId())));
 
@@ -69,7 +67,7 @@ public class IAccountServiceImpl implements IAccountService {
 
     @Override
     public void deteleteAccountDetails(String mobileNumber) {
-        Customer customer= customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
+        Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
                 () -> new ResourceNotFoundException(AccountConstants.CUSTOMER, AccountConstants.MOBILE_NUMBER, mobileNumber)
         );
         accountsRepository.deleteById(customer.getId());
