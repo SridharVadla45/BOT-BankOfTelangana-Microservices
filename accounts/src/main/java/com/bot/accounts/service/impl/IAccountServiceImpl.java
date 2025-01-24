@@ -51,7 +51,7 @@ public class IAccountServiceImpl implements IAccountService {
                 () -> new ResourceNotFoundException("Account", "Customer Id", String.valueOf(customer.getId())));
 
         CustomerDto customerDto = CustomerMapper.toDto(customer);
-        customerDto.setAccountDto(AccountMapper.toDto(account));
+
         return customerDto;
 
     }
